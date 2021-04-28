@@ -1,0 +1,96 @@
+﻿@using EditTerritoryVM = Territory.Models.ViewModel.EditTerritoryVM
+@model EditTerritoryVM
+@{
+    ViewData["Title"] = "EditPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <div class="row p-3">
+        <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (Model.PublisherTerritory.Id != 0)
+                {
+                    <input type="hidden" asp-for="PublisherTerritory.Id" />
+                    <input type="hidden" asp-for="PublisherTerritory.ApplicationUserId" />
+                    <input type="hidden" asp-for="PublisherTerritory.TerritoryId" />
+                    <input type="hidden" asp-for="Note.Id" />
+                    <input type="hidden" asp-for="Note.ApplicationUserId" />
+                    <input type="hidden" asp-for="Note.PublisherTerritoryId" />
+                    <input type="hidden" asp-for="Publications.Id" />
+                    <input type="hidden" asp-for="Publications.ApplicationUserId" />
+                    <input type="hidden" asp-for="Publications.PublisherTerritoryId" />
+                }
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="m-0">@Model.PublisherTerritory.Territory.Title @Model.PublisherTerritory.Territory.FirstName @Model.PublisherTerritory.Territory.Title @Model.PublisherTerritory.Territory.LastName</h3>
+                        <h3 class="m-0">@Model.PublisherTerritory.Territory.Street @Model.PublisherTerritory.Territory.Apartment</h3>
+                        <h3 class="m-0">@Model.PublisherTerritory.Territory.City, @Model.PublisherTerritory.Territory.State @Model.PublisherTerritory.Territory.Zipcode</h3>
+                        <h3 class="mt-0">@Model.PublisherTerritory.Territory.PhoneNumber</h3>
+                    </div>
+                </div>
+                <div class="row mt-md-2 mb-4">
+                    <div class="col-lg-8 col-md-8">
+                        <div class="input-with-icon">
+                            <label asp-for="Publications.NameOfPublication">Publication</label>
+                            <input type="text" asp-for="Publications.NameOfPublication" class="create-territory-input" placeholder="Add a publication">
+                            <span asp-validation-for="Publications.NameOfPublication" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-with-icon">
+                            <label asp-for="Publications.DatePlaced">Date</label>
+                            <input asp-for="Publications.DatePlaced"
+                                   type="date" id="start"
+                                   value="@DateTime.Now"
+                                   max="@DateTime.Now"
+                                   class="create-territory-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-with-icon mb-4">
+                    <label asp-for="PublisherTerritory.Territory.Comment">Comment</label>
+                    <textarea type="text"
+                              asp-for="PublisherTerritory.Territory.Comment"
+                              class="create-territory-input"
+                              placeholder="Add a comment"
+                              autocomplete="on"
+                              spellcheck="true"
+                              rows="5">
+                    </textarea>
+                </div>
+                <div class="input-with-icon mb-4">
+                    <label asp-for="Note.TerritoryNote">Note</label>
+                    <textarea type="text"
+                              asp-for="Note.TerritoryNote"
+                              class="create-territory-input"
+                              placeholder="Add a note"
+                              autocomplete="on"
+                              spellcheck="true"
+                              rows="5">
+                    </textarea>
+                </div>
+                @if (Model.PublisherTerritory.Territory.CurrentPub != null)
+                {
+                    <p class="m-0 text-muted">Territory is taken by @Model.PublisherTerritory.Territory.CurrentPub</p>
+                    <p class="m-0 text-muted">On @Model.PublisherTerritory.Territory.DateCurrentPub</p>
+                }
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                    </div>
+                    <div class="col">
+                        <a asp-action="Index" class="btn btn-success form-control">Back to Territory</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

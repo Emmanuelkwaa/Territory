@@ -1,0 +1,152 @@
+﻿@using HomeVM = Territory.Models.ViewModel.HomeVM
+@model HomeVM
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <form method="get" class="form-inline col-sm-6 text-md-left text-lg-left">
+            <input asp-for="SearchTerm" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="row mt-3">
+        <div class="col-6">
+            <h6>@Model.Territory.Count() Territories available</h6>
+        </div>
+        <div class="col-6 text-right">
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <form method="post">
+                        <input type="hidden" asp-for="Filter" value="1" />
+                        <button type="submit" class="dropdown-item" href="#">Not Taken</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" asp-for="Filter" value="2" />
+                        <button type="submit" class="dropdown-item" href="#">Taken</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" asp-for="Filter" value="3" />
+                        <button type="submit" class="dropdown-item" href="#">With Phone Number</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" asp-for="Filter" value="4" />
+                        <button type="submit" class="dropdown-item" href="#">No Phone Number</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        @if (Model.Territory.Any())
+        {
+            @foreach (var territory in Model.Territory)
+            {
+                if (territory.IsTaken)
+                {
+                    <div class="col-sm-6 mb-3">
+                        <div class="card" style="border: 1px solid #ff7001">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    @if (territory.Title != null)
+                                    {
+                                        <h5>@territory.Title @territory.FirstName @territory.LastName</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5>@territory.FirstName @territory.LastName</h5>
+                                    }
+                                </div>
+                                <p class="card-text m-0">@territory.Street @territory.Apartment</p>
+                                <p class="card-text">@territory.City @territory.State @territory.Zipcode</p>
+                                @if (territory.PhoneNumber != null)
+                                {
+                                    <p>@territory.PhoneNumber</p>
+                                }
+                                else
+                                {
+                                    <p>No phone number available</p>
+                                }
+                                <div class="row">
+                                    @if (territory.IsTaken)
+                                    {
+                                        <div class="col-lg-12 text-right">
+                                            <a class="btn btn-primary create-button disabled">View Territory</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-12 text-right">
+                                            <a asp-action="Details" asp-route-id="@territory.Id" class="btn btn-primary create-button">View Territory</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    @if (territory.Title != null)
+                                    {
+                                        <h5>@territory.Title @territory.FirstName @territory.LastName</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5>@territory.FirstName @territory.LastName</h5>
+                                    }
+                                </div>
+                                <p class="card-text m-0">@territory.Street @territory.Apartment</p>
+                                <p class="card-text">@territory.City @territory.State @territory.Zipcode</p>
+                                @if (territory.PhoneNumber != null)
+                                {
+                                    <p>@territory.PhoneNumber</p>
+                                }
+                                else
+                                {
+                                    <p>No phone number available</p>
+                                }
+                                <div class="row">
+                                    @if (territory.IsTaken)
+                                    {
+                                        <div class="col-lg-12 text-right">
+                                            <a class="btn btn-primary create-button disabled">View Territory</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-12 text-right">
+                                            <a asp-action="Details" asp-route-id="@territory.Id" class="btn btn-primary create-button">View Territory</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+        }
+        else
+        {
+            <div class="jumbotron" style="width: 100%">
+                <div class="container">
+                    <h1 class="display-4">No territory available</h1>
+                </div>
+            </div>
+        }
+    </div>
+</div>

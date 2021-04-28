@@ -1,0 +1,135 @@
+﻿@model Territory
+@{
+    var title = "Create Territory";
+    @if (Model.Id != 0)
+    {
+        title = "Update Territory";
+    }
+    ViewData["Title"] = title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="container">
+        <br />
+        <br />
+        <br />
+        <div class="row p-3">
+            <div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (Model.Id != 0)
+                    {
+                        <input type="hidden" asp-for="Id" />
+                    }
+
+                    <div class="row mt-md-2 mb-4">
+                        <div class="col-lg-2 col-md-3">
+                            <div class="input-with-icon">
+                                <label asp-for="Title">Title</label>
+                                <input type="text" asp-for="Title" class="create-territory-input">
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-4">
+                            <div class="input-with-icon">
+                                <label asp-for="FirstName">First Name</label>
+                                <input type="text" asp-for="FirstName" class="create-territory-input" required>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <div class="input-with-icon">
+                                <label asp-for="LastName">Last Name</label>
+                                <input type="text" asp-for="LastName" class="create-territory-input" required>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-md-2 mb-4">
+                        <div class="col-lg-9 col-md-9">
+                            <div class="input-with-icon">
+                                <label asp-for="Street">Street Address</label>
+                                <input type="text" asp-for="Street" class="create-territory-input" required>
+                                <span asp-validation-for="Street" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="input-with-icon">
+                                <label asp-for="Apartment">Apt</label>
+                                <input type="text" asp-for="Apartment" class="create-territory-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-md-2 mb-4">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="input-with-icon">
+                                <label asp-for="City">City</label>
+                                <input type="text" asp-for="City" class="create-territory-input" required>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="input-with-icon">
+                                <label asp-for="State">State</label>
+                                <input type="text" asp-for="State" class="create-territory-input" required>
+                                <span asp-validation-for="State" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="input-with-icon">
+                                <label asp-for="Zipcode">Zipcode</label>
+                                <input type="text" asp-for="Zipcode" class="create-territory-input" required>
+                                <span asp-validation-for="Zipcode" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-with-icon mb-4">
+                        <label asp-for="PhoneNumber">Phone Number</label>
+                        <input type="text" asp-for="PhoneNumber" class="create-territory-input">
+                    </div>
+                    @if (Model.Comment == null)
+                    {
+                        <div class="input-with-icon mb-4">
+                            <label asp-for="Comment">Comment</label>
+                            <textarea 
+                                      type="text" 
+                                      asp-for="Comment" 
+                                      class="create-territory-input"
+                                      placeholder="Add a comment"
+                                      autocomplete="on"
+                                      spellcheck="true"
+                                      rows="5">
+                            </textarea>
+                        </div>
+                    }
+                    @if (Model.CurrentPub != null)
+                    {
+                        <p class="m-0 text-muted">Territory is taken by @Model.CurrentPub</p>
+                        <p class="m-0 text-muted">On @Model.DateCurrentPub</p>
+                    }
+
+                    @if (Model.Id != 0)
+                    {
+                        <partial name="_EditAndBackToListButton" model="Model.Id" />
+                    }
+                    else
+                    {
+                        <div class="row mt-3">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary form-control">Create</button>
+                            </div>
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

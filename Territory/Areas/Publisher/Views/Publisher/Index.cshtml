@@ -1,0 +1,107 @@
+﻿@using MyTerritoryVM = Territory.Models.ViewModel.MyTerritoryVM
+@model MyTerritoryVM 
+@{
+    ViewData["Title"] = "My Territory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+<br />
+<br />
+<div class="row">
+    @if (Model.PublisherTerritories.Any())
+    {
+        foreach (var territory in Model.PublisherTerritories)
+        {
+            <div class="col-sm-5 m-4 border rounded">
+                <div class="list-group list-group-flush">
+
+                    <div class="list-group-item ">
+                        <form method="post">
+                            <button type="submit" asp-action="Delete" asp-route-id="@territory.Id" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </form>
+                        <p class="mb-1">@territory.Territory.FirstName @territory.Territory.LastName</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p class="mb-1">@territory.Territory.Street @territory.Territory.Apartment</p>
+                        <p class="mb-1">@territory.Territory.City @territory.Territory.State</p>
+                        <p class="mb-1">@territory.Territory.Zipcode</p>
+                        @if (territory.Territory.PhoneNumber != null)
+                        {
+                            <p class="mb-1">@territory.Territory.PhoneNumber</p>
+                        }
+                        else
+                        {
+                            <p class="mb-1 text-capitalize font-italic">Territory has no number</p>
+                        }
+                    </div>
+                    @if (territory.Territory.Comment != null)
+                    {
+                        <div class="list-group-item">
+                            <h6><strong>COMMENT</strong></h6>
+                            <p class="mb-1">@territory.Territory.Comment.ToUpper()</p>
+                            <small class="text-muted">Comment by: @territory.Territory.CommentBy</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-group-item">
+                            <div class="d-flex row">
+                                <div class="col-10">
+                                    <p class="mb-1">No comment exist.</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+                     <div class="list-group-item">
+                         @if (Model.Publication.Any())
+                         {
+                             foreach (var publication in Model.Publication)
+                             {
+                                 if (publication.PublisherTerritoryId == territory.Id)
+                                 {
+                                     <h6><strong>PUBLICATION</strong></h6>
+                                     <p class="m-0">@publication.NameOfPublication.ToUpper()</p>
+                                     <p class="m-0 mb-3">Date placed: @publication.DatePlaced</p>
+                                 }
+                             }
+                         }
+                         else
+                         {
+                             <p class="m-0">You have not added a publication</p>
+                         }
+                     </div>
+                    
+                    @foreach (var note in Model.Note)
+                    {
+                        if (note.PublisherTerritoryId == territory.Id)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex row">
+                                    <div class="col-10">
+                                        <h6><strong>NOTE</strong></h6>
+                                        <p class="m-0">@note.TerritoryNote.ToUpper()</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="row mt-2 mb-2">
+                        <div class="col-lg-12 text-right">
+                            <a asp-action="EditPost" asp-route-id="@territory.Id" class="btn btn-primary create-button">Edit Territory</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h1>You don't have any territory added</h1>
+    }
+</div>
